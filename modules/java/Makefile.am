@@ -21,6 +21,8 @@ modules_java_libmod_java_la_SOURCES = \
     modules/java/native/java-filter.c \
     modules/java/proxies/java-destination-proxy.c \
     modules/java/proxies/java-destination-proxy.h \
+    modules/java/proxies/java-filter-proxy.c \
+    modules/java/proxies/java-filter-proxy.h \
     modules/java/proxies/java-logmsg-proxy.c \
     modules/java/proxies/java-logmsg-proxy.h \
     modules/java/proxies/java-template-proxy.c \
@@ -56,6 +58,7 @@ JAVA_CLASS_FILES = \
     $(JAVA_CLASS_PATH)/LogTemplate.class \
     $(JAVA_CLASS_PATH)/LogPipe.class \
     $(JAVA_CLASS_PATH)/LogDestination.class \
+    $(JAVA_CLASS_PATH)/FilterExprNode.class \
     $(JAVA_CLASS_PATH)/TextLogDestination.class \
     $(JAVA_CLASS_PATH)/StructuredLogDestination.class \
     $(JAVA_CLASS_PATH)/DummyTextDestination.class \
@@ -68,6 +71,7 @@ JAVA_FILES = \
     $(JAVA_SRC_DIR)/LogTemplate.java \
     $(JAVA_SRC_DIR)/LogPipe.java \
     $(JAVA_SRC_DIR)/LogDestination.java \
+    $(JAVA_SRC_DIR)/FilterExprNode.java \
     $(JAVA_SRC_DIR)/TextLogDestination.java \
     $(JAVA_SRC_DIR)/StructuredLogDestination.java \
     $(JAVA_SRC_DIR)/DummyTextDestination.java \
@@ -75,6 +79,7 @@ JAVA_FILES = \
 
 JAVA_HEADER_FILES = \
    modules/java/LogDestination.h \
+   modules/java/FilterExprNode.h \
    modules/java/LogMessage.h \
    modules/java/LogTemplate.h \
    modules/java/InternalMessageSender.h
@@ -101,6 +106,9 @@ $(JAVA_CLASS_PATH)/LogPipe.class: $(JAVA_SRC_DIR)/LogPipe.java $(JAVA_CLASS_PATH
 	$(JAVAC) -d ./ -cp ./ $<
 
 $(JAVA_CLASS_PATH)/LogDestination.class: $(JAVA_SRC_DIR)/LogDestination.java $(JAVA_CLASS_PATH)/LogPipe.class
+	$(JAVAC) -d ./ -cp ./ $<
+
+$(JAVA_CLASS_PATH)/FilterExprNode.class: $(JAVA_SRC_DIR)/FilterExprNode.java $(JAVA_CLASS_PATH)/InternalMessageSender.class
 	$(JAVAC) -d ./ -cp ./ $<
 
 $(JAVA_CLASS_PATH)/TextLogDestination.class: $(JAVA_SRC_DIR)/TextLogDestination.java $(JAVA_CLASS_PATH)/LogDestination.class
