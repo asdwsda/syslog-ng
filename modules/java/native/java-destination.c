@@ -29,7 +29,7 @@
 
 #include <stdio.h>
 
-gchar *
+static gchar *
 __normalize_key(const gchar *buffer)
 {
   const gchar from = '-';
