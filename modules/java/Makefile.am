@@ -32,8 +32,8 @@ modules_java_libmod_java_la_SOURCES = \
     modules/java/native/java-helpers.h \
     modules/java/native/java-class-loader.c \
     modules/java/native/java-class-loader.h \
-    modules/java/native/java-parser.c \
-    modules/java/native/java-parser.h \
+    modules/java/native/modjava-parser.c \
+    modules/java/native/modjava-parser.h \
     modules/java/native/java_machine.c \
     modules/java/native/java_machine.h
 
