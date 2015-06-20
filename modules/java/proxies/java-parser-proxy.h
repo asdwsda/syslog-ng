@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2014 BalaBit IT Ltd, Budapest, Hungary
- * Copyright (c) 2014 Viktor Juhasz <viktor.juhasz@balabit.com>
+ * Copyright (c) 2015 BalaBit IT Ltd, Budapest, Hungary
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 2 as published
@@ -21,25 +20,20 @@
  *
  */
 
-#include "cfg-parser.h"
-#include "java-grammar.h"
+#ifndef JAVA_PARSER_PROXY_H_
+#define JAVA_PARSER_PROXY_H_
 
-int java_parse(CfgLexer *lexer, gpointer *instance, gpointer arg);
+#include <jni.h>
+#include <syslog-ng.h>
+#include "java_machine.h"
 
-static CfgLexerKeyword java_keywords[] = {
-  { "java",        KW_JAVA },
-  { "class_path",  KW_CLASS_PATH},
-  { "class_name",  KW_CLASS_NAME},
-  { "option",      KW_OPTION},
-  { NULL }
-};
+typedef struct _JavaParserProxy JavaParserProxy;
 
-CfgParser java_parser =
-  {
-    .name = "java",
-    .keywords = java_keywords,
-    .parse = (int (*)(CfgLexer *lexer, gpointer *instance, gpointer)) java_parse,
-    .cleanup = (void (*)(gpointer)) log_pipe_unref,
-  };
+JavaParserProxy* java_parser_proxy_new(const gchar *class_name, const gchar *class_path, gpointer handle);
 
-CFG_PARSER_IMPLEMENT_LEXER_BINDING(java_, gpointer *)
+gboolean java_parser_proxy_init(JavaParserProxy *self);
+gboolean java_parser_proxy_process(JavaParserProxy *self, LogMessage *msg, const gchar *input, gsize input_len);
+
+void java_parser_proxy_free(JavaParserProxy *self);
+
+#endif

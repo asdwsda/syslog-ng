@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2014 BalaBit IT Ltd, Budapest, Hungary
- * Copyright (c) 2014 Viktor Juhasz <viktor.juhasz@balabit.com>
+ * Copyright (c) 2015 BalaBit IT Ltd, Budapest, Hungary
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 2 as published
@@ -21,25 +20,25 @@
  *
  */
 
-#include "cfg-parser.h"
-#include "java-grammar.h"
+#ifndef JAVA_PARSER_H_INCLUDED
+#define JAVA_PARSER_H_INCLUDED
 
-int java_parse(CfgLexer *lexer, gpointer *instance, gpointer arg);
+#include "parser/parser-expr.h"
+#include "proxies/java-parser-proxy.h"
 
-static CfgLexerKeyword java_keywords[] = {
-  { "java",        KW_JAVA },
-  { "class_path",  KW_CLASS_PATH},
-  { "class_name",  KW_CLASS_NAME},
-  { "option",      KW_OPTION},
-  { NULL }
-};
 
-CfgParser java_parser =
-  {
-    .name = "java",
-    .keywords = java_keywords,
-    .parse = (int (*)(CfgLexer *lexer, gpointer *instance, gpointer)) java_parse,
-    .cleanup = (void (*)(gpointer)) log_pipe_unref,
-  };
+typedef struct
+{
+  LogParser super;
+  JavaParserProxy *proxy;
+  GString *class_path;
+  gchar *class_name;
+  GHashTable *options;
+} JavaParser;
 
-CFG_PARSER_IMPLEMENT_LEXER_BINDING(java_, gpointer *)
+LogParser *java_parser_new(GlobalConfig *cfg);
+void java_parser_set_class_path(LogParser *s, const gchar *class_path);
+void java_parser_set_class_name(LogParser *s, const gchar *class_name);
+void java_parser_set_option(LogParser *s, const gchar* key, const gchar* value);
+
+#endif
