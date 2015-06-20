@@ -22,29 +22,13 @@
  */
 
 #include "java-destination.h"
+#include "java-helpers.h"
 #include "messages.h"
 #include "stats/stats.h"
 #include "logqueue.h"
 #include "driver.h"
 
 #include <stdio.h>
-
-static gchar *
-__normalize_key(const gchar *buffer)
-{
-  const gchar from = '-';
-  const gchar to = '_';
-  gchar *p;
-  gchar *normalized_key = g_strdup(buffer);
-  p = normalized_key;
-  while (*p)
-    {
-      if (*p == from)
-        *p = to;
-      p++;
-    }
-  return normalized_key;
-}
 
 JNIEXPORT jstring JNICALL
 Java_org_syslog_1ng_LogDestination_getOption(JNIEnv *env, jobject obj, jlong s, jstring key)

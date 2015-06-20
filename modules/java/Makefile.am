@@ -28,6 +28,8 @@ modules_java_libmod_java_la_SOURCES = \
     modules/java/proxies/java-template-proxy.c \
     modules/java/proxies/java-template-proxy.h \
     modules/java/proxies/internal-message-sender-proxy.c \
+    modules/java/native/java-helpers.c \
+    modules/java/native/java-helpers.h \
     modules/java/native/java-class-loader.c \
     modules/java/native/java-class-loader.h \
     modules/java/native/java-parser.c \
