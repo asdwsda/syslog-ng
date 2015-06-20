@@ -46,6 +46,11 @@ static Plugin java_plugins[] =
     .name = "java",
     .parser = &java_parser,
   },
+  {
+    .type = LL_CONTEXT_PARSER,
+    .name = "java",
+    .parser = &java_parser,
+  },
 };
 
 gboolean
