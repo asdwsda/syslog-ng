@@ -70,7 +70,8 @@ JAVA_CLASS_FILES = \
     $(JAVA_CLASS_PATH)/StructuredLogDestination.class \
     $(JAVA_CLASS_PATH)/DummyTextDestination.class \
     $(JAVA_CLASS_PATH)/DummyStructuredDestination.class \
-    $(JAVA_CLASS_PATH)/RandomFilter.class
+    $(JAVA_CLASS_PATH)/RandomFilter.class \
+    $(JAVA_CLASS_PATH)/KeyValueParser.class
 
 JAVA_FILES = \
     $(JAVA_SRC_DIR)/InternalMessageSender.java \
@@ -85,7 +86,8 @@ JAVA_FILES = \
     $(JAVA_SRC_DIR)/StructuredLogDestination.java \
     $(JAVA_SRC_DIR)/DummyTextDestination.java \
     $(JAVA_SRC_DIR)/DummyStructuredDestination.java \
-    $(JAVA_SRC_DIR)/RandomFilter.java
+    $(JAVA_SRC_DIR)/RandomFilter.java \
+    $(JAVA_SRC_DIR)/KeyValueParser.java
 
 JAVA_HEADER_FILES = \
    modules/java/LogDestination.h \
@@ -138,6 +140,9 @@ $(JAVA_CLASS_PATH)/DummyTextDestination.class: $(JAVA_SRC_DIR)/DummyTextDestinat
 	$(JAVAC) -d ./ -cp ./ $<
 
 $(JAVA_CLASS_PATH)/RandomFilter.class: $(JAVA_SRC_DIR)/RandomFilter.java $(JAVA_CLASS_PATH)/FilterExprNode.class
+	$(JAVAC) -d ./ -cp ./ $<
+
+$(JAVA_CLASS_PATH)/KeyValueParser.class: $(JAVA_SRC_DIR)/KeyValueParser.java $(JAVA_CLASS_PATH)/LogParser.class
 	$(JAVAC) -d ./ -cp ./ $<
 
 java-install-exec-hook:
