@@ -31,6 +31,9 @@ public class LogMessage {
   }
 
   public String getValue(String name) {
+    if (name == null) {
+      throw new IllegalArgumentException("Name cannot be null");
+    }
     return getValue(handle, name);
   }
 
