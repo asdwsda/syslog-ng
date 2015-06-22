@@ -67,13 +67,13 @@ __load_destination_object(JavaDestinationProxy *self, const gchar *class_name, c
       return FALSE;
   }
 
-  result &= __load_class_method(java_env, self->loaded_class, "<init>", "(J)V", &self->dest_impl.mi_constructor);
-  result &= __load_class_method(java_env, self->loaded_class, "initProxy", "()Z", &self->dest_impl.mi_init);
-  result &= __load_class_method(java_env, self->loaded_class, "deinitProxy", "()V", &self->dest_impl.mi_deinit);
-  result &= __load_class_method(java_env, self->loaded_class, "onMessageQueueEmptyProxy", "()V", &self->dest_impl.mi_on_message_queue_empty);
-  result &= __load_class_method(java_env, self->loaded_class, "openProxy", "()Z", &self->dest_impl.mi_open);
-  result &= __load_class_method(java_env, self->loaded_class, "closeProxy", "()V", &self->dest_impl.mi_close);
-  result &= __load_class_method(java_env, self->loaded_class, "isOpenedProxy", "()Z", &self->dest_impl.mi_is_opened);
+  result &= load_class_method(java_env, self->loaded_class, "<init>", "(J)V", &self->dest_impl.mi_constructor);
+  result &= load_class_method(java_env, self->loaded_class, "initProxy", "()Z", &self->dest_impl.mi_init);
+  result &= load_class_method(java_env, self->loaded_class, "deinitProxy", "()V", &self->dest_impl.mi_deinit);
+  result &= load_class_method(java_env, self->loaded_class, "onMessageQueueEmptyProxy", "()V", &self->dest_impl.mi_on_message_queue_empty);
+  result &= load_class_method(java_env, self->loaded_class, "openProxy", "()Z", &self->dest_impl.mi_open);
+  result &= load_class_method(java_env, self->loaded_class, "closeProxy", "()V", &self->dest_impl.mi_close);
+  result &= load_class_method(java_env, self->loaded_class, "isOpenedProxy", "()Z", &self->dest_impl.mi_is_opened);
 
   self->dest_impl.mi_send = CALL_JAVA_FUNCTION(java_env, GetMethodID, self->loaded_class, "sendProxy", "(Ljava/lang/String;)Z");
   self->dest_impl.mi_send_msg = CALL_JAVA_FUNCTION(java_env, GetMethodID, self->loaded_class, "sendProxy", "(Lorg/syslog_ng/LogMessage;)Z");
