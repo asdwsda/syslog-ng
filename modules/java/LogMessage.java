@@ -48,6 +48,11 @@ public class LogMessage {
     setValue(handle, name, value);
   }
 
+  public void setTag(LogTag tag, boolean on) {
+    long tag_handle = tag.getHandle();
+    setTagById(handle, tag_handle, on);
+  }
+
 
   public void release() {
     unref(handle);
@@ -61,4 +66,5 @@ public class LogMessage {
   private native void unref(long handle);
   private native String getValue(long ptr, String name);
   private native void setValue(long ptr, String name, String value);
+  private native void setTagById(long msg_handle, long tag_handle, boolean value);
 }

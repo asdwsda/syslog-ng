@@ -17,20 +17,26 @@ modules_java_libmod_java_la_SOURCES = \
     modules/java/native/java-plugin.c \
     modules/java/native/java-destination.c \
     modules/java/native/java-destination.h \
-    modules/java/native/java-filter.h \
     modules/java/native/java-filter.c \
+    modules/java/native/java-filter.h \
     modules/java/native/java-parser.c \
     modules/java/native/java-parser.h \
+    modules/java/native/java-rewrite.c \
+    modules/java/native/java-rewrite.h \
     modules/java/proxies/java-destination-proxy.c \
     modules/java/proxies/java-destination-proxy.h \
     modules/java/proxies/java-filter-proxy.c \
     modules/java/proxies/java-filter-proxy.h \
     modules/java/proxies/java-parser-proxy.c \
     modules/java/proxies/java-parser-proxy.h \
+    modules/java/proxies/java-rewrite-proxy.c \
+    modules/java/proxies/java-rewrite-proxy.h \
     modules/java/proxies/java-logmsg-proxy.c \
     modules/java/proxies/java-logmsg-proxy.h \
     modules/java/proxies/java-template-proxy.c \
     modules/java/proxies/java-template-proxy.h \
+    modules/java/proxies/java-logtag-proxy.c \
+    modules/java/proxies/java-logtag-proxy.h \
     modules/java/proxies/internal-message-sender-proxy.c \
     modules/java/native/java-helpers.c \
     modules/java/native/java-helpers.h \
@@ -62,39 +68,47 @@ JAVA_CLASS_FILES = \
     $(JAVA_CLASS_PATH)/SyslogNgClassLoader.class \
     $(JAVA_CLASS_PATH)/LogMessage.class \
     $(JAVA_CLASS_PATH)/LogTemplate.class \
+    $(JAVA_CLASS_PATH)/LogTag.class \
     $(JAVA_CLASS_PATH)/LogPipe.class \
     $(JAVA_CLASS_PATH)/LogDestination.class \
     $(JAVA_CLASS_PATH)/LogParser.class \
+    $(JAVA_CLASS_PATH)/LogRewrite.class \
     $(JAVA_CLASS_PATH)/FilterExprNode.class \
     $(JAVA_CLASS_PATH)/TextLogDestination.class \
     $(JAVA_CLASS_PATH)/StructuredLogDestination.class \
     $(JAVA_CLASS_PATH)/DummyTextDestination.class \
     $(JAVA_CLASS_PATH)/DummyStructuredDestination.class \
     $(JAVA_CLASS_PATH)/RandomFilter.class \
-    $(JAVA_CLASS_PATH)/KeyValueParser.class
+    $(JAVA_CLASS_PATH)/KeyValueParser.class \
+    $(JAVA_CLASS_PATH)/DummyRewrite.class
 
 JAVA_FILES = \
     $(JAVA_SRC_DIR)/InternalMessageSender.java \
     $(JAVA_SRC_DIR)/SyslogNgClassLoader.java \
     $(JAVA_SRC_DIR)/LogMessage.java \
     $(JAVA_SRC_DIR)/LogTemplate.java \
+    $(JAVA_SRC_DIR)/LogTag.java \
     $(JAVA_SRC_DIR)/LogPipe.java \
     $(JAVA_SRC_DIR)/LogDestination.java \
     $(JAVA_SRC_DIR)/LogParser.java \
+    $(JAVA_SRC_DIR)/LogRewrite.java \
     $(JAVA_SRC_DIR)/FilterExprNode.java \
     $(JAVA_SRC_DIR)/TextLogDestination.java \
     $(JAVA_SRC_DIR)/StructuredLogDestination.java \
     $(JAVA_SRC_DIR)/DummyTextDestination.java \
     $(JAVA_SRC_DIR)/DummyStructuredDestination.java \
     $(JAVA_SRC_DIR)/RandomFilter.java \
-    $(JAVA_SRC_DIR)/KeyValueParser.java
+    $(JAVA_SRC_DIR)/KeyValueParser.java \
+    $(JAVA_SRC_DIR)/DummyRewrite.java
 
 JAVA_HEADER_FILES = \
    modules/java/LogDestination.h \
    modules/java/LogParser.h \
+   modules/java/LogRewrite.h \
    modules/java/FilterExprNode.h \
    modules/java/LogMessage.h \
    modules/java/LogTemplate.h \
+   modules/java/LogTag.h \
    modules/java/InternalMessageSender.h
 
 modules/java/SyslogNg.jar: $(JAVA_CLASS_FILES) $(JAVA_HEADER_FILES)
@@ -109,10 +123,13 @@ $(JAVA_CLASS_PATH)/InternalMessageSender.class: $(JAVA_SRC_DIR)/InternalMessageS
 $(JAVA_CLASS_PATH)/SyslogNgClassLoader.class: $(JAVA_SRC_DIR)/SyslogNgClassLoader.java $(JAVA_CLASS_PATH)/InternalMessageSender.class
 	$(JAVAC) -d ./ -cp ./ $<
 
-$(JAVA_CLASS_PATH)/LogMessage.class: $(JAVA_SRC_DIR)/LogMessage.java
+$(JAVA_CLASS_PATH)/LogMessage.class: $(JAVA_SRC_DIR)/LogMessage.java $(JAVA_CLASS_PATH)/LogTag.class
 	$(JAVAC) -d ./ -cp ./ $<
 
 $(JAVA_CLASS_PATH)/LogTemplate.class: $(JAVA_SRC_DIR)/LogTemplate.java
+	$(JAVAC) -d ./ -cp ./ $<
+
+$(JAVA_CLASS_PATH)/LogTag.class: $(JAVA_SRC_DIR)/LogTag.java
 	$(JAVAC) -d ./ -cp ./ $<
 
 $(JAVA_CLASS_PATH)/LogPipe.class: $(JAVA_SRC_DIR)/LogPipe.java $(JAVA_CLASS_PATH)/InternalMessageSender.class
@@ -122,6 +139,9 @@ $(JAVA_CLASS_PATH)/LogDestination.class: $(JAVA_SRC_DIR)/LogDestination.java $(J
 	$(JAVAC) -d ./ -cp ./ $<
 
 $(JAVA_CLASS_PATH)/LogParser.class: $(JAVA_SRC_DIR)/LogParser.java $(JAVA_CLASS_PATH)/LogPipe.class
+	$(JAVAC) -d ./ -cp ./ $<
+
+$(JAVA_CLASS_PATH)/LogRewrite.class: $(JAVA_SRC_DIR)/LogRewrite.java $(JAVA_CLASS_PATH)/LogPipe.class
 	$(JAVAC) -d ./ -cp ./ $<
 
 $(JAVA_CLASS_PATH)/FilterExprNode.class: $(JAVA_SRC_DIR)/FilterExprNode.java $(JAVA_CLASS_PATH)/InternalMessageSender.class
@@ -143,6 +163,9 @@ $(JAVA_CLASS_PATH)/RandomFilter.class: $(JAVA_SRC_DIR)/RandomFilter.java $(JAVA_
 	$(JAVAC) -d ./ -cp ./ $<
 
 $(JAVA_CLASS_PATH)/KeyValueParser.class: $(JAVA_SRC_DIR)/KeyValueParser.java $(JAVA_CLASS_PATH)/LogParser.class
+	$(JAVAC) -d ./ -cp ./ $<
+
+$(JAVA_CLASS_PATH)/DummyRewrite.class: $(JAVA_SRC_DIR)/DummyRewrite.java $(JAVA_CLASS_PATH)/LogRewrite.class
 	$(JAVAC) -d ./ -cp ./ $<
 
 java-install-exec-hook:
