@@ -20,12 +20,11 @@
  *
  */
 
-#ifndef JAVA_TEMPLATE_H_INCLUDED
-#define JAVA_TEMPLATE_H_INCLUDED
+#ifndef JAVA_TF_H_INCLUDED
+#define JAVA_TF_H_INCLUDED
 
 #include "lib/template/function.h"
-#include "proxies/java-template-function-proxy.h"
 
-TEMPLATE_FUNCTION_PROTOTYPE(java_template_function);
+TEMPLATE_FUNCTION_PROTOTYPE(java_tf);
 
 #endif

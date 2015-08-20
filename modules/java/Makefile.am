@@ -68,6 +68,8 @@ modules_java_libmod_java_la_SOURCES = \
     modules/java/native/java-reader.c \
     modules/java/native/java-rewrite.h \
     modules/java/native/java-rewrite.c \
+    modules/java/native/java-tf.h \
+    modules/java/native/java-tf.c \
     modules/java/native/java-source.h \
     modules/java/native/java-source.c \
     modules/java/native/poll-follow-events.h \
@@ -76,8 +78,6 @@ modules_java_libmod_java_la_SOURCES = \
     modules/java/proxies/java-destination-proxy.h \
     modules/java/proxies/java-logmsg-proxy.c \
     modules/java/proxies/java-logmsg-proxy.h \
-    modules/java/proxies/java-template-proxy.c \
-    modules/java/proxies/java-template-proxy.h \
     modules/java/proxies/java-filter-proxy.c \
     modules/java/proxies/java-filter-proxy.h \
     modules/java/proxies/java-rewrite-proxy.c \

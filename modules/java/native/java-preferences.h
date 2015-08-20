@@ -23,6 +23,8 @@
 #ifndef JAVA_PREFERENCES_H_INCLUDED
 #define JAVA_PREFERENCES_H_INCLUDED
 
+#include <glib.h>
+
 typedef struct
 {
     GString *class_path;
