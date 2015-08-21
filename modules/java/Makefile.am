@@ -86,6 +86,8 @@ modules_java_libmod_java_la_SOURCES = \
     modules/java/proxies/java-parser-proxy.h \
     modules/java/proxies/java-reader-proxy.c \
     modules/java/proxies/java-reader-proxy.h \
+    modules/java/proxies/java-tf-proxy.c \
+    modules/java/proxies/java-tf-proxy.h \
     modules/java/proxies/java-logtag-proxy.c \
     modules/java/proxies/java-logtag-proxy.h \
     modules/java/proxies/internal-message-sender-proxy.c
@@ -114,8 +116,10 @@ JAVA_FILES = \
     $(JAVA_SRC_DIR)/LogTag.java \
     $(JAVA_SRC_DIR)/LogRewrite.java \
     $(JAVA_SRC_DIR)/LogParser.java \
+    $(JAVA_SRC_DIR)/TemplateFunction.java \
     $(JAVA_SRC_DIR)/FilterExprNode.java \
     $(JAVA_SRC_DIR)/LogReader.java \
+    $(JAVA_SRC_DIR)/CountTemplate.java \
     $(JAVA_SRC_DIR)/DummyRewrite.java \
     $(JAVA_SRC_DIR)/DummySource.java \
     $(JAVA_SRC_DIR)/KeyValueParser.java \
@@ -129,6 +133,7 @@ JAVA_HEADER_FILES = \
    $(top_builddir)/modules/java/org_syslog_ng_LogTag.h \
    $(top_builddir)/modules/java/org_syslog_ng_FilterExprNode.h \
    $(top_builddir)/modules/java/org_syslog_ng_LogRewrite.h \
+   $(top_builddir)/modules/java/org_syslog_ng_TemplateFunction.h \
    $(top_builddir)/modules/java/org_syslog_ng_LogParser.h \
    $(top_builddir)/modules/java/org_syslog_ng_LogReader.h
 
