@@ -64,8 +64,14 @@ modules_java_libmod_java_la_SOURCES = \
     modules/java/native/java-helpers.c \
     modules/java/native/java-preferences.h \
     modules/java/native/java-preferences.c \
+    modules/java/native/java-reader.h \
+    modules/java/native/java-reader.c \
     modules/java/native/java-rewrite.h \
     modules/java/native/java-rewrite.c \
+    modules/java/native/java-source.h \
+    modules/java/native/java-source.c \
+    modules/java/native/poll-follow-events.h \
+    modules/java/native/poll-follow-events.c \
     modules/java/proxies/java-destination-proxy.c \
     modules/java/proxies/java-destination-proxy.h \
     modules/java/proxies/java-logmsg-proxy.c \
@@ -78,6 +84,8 @@ modules_java_libmod_java_la_SOURCES = \
     modules/java/proxies/java-rewrite-proxy.h \
     modules/java/proxies/java-parser-proxy.c \
     modules/java/proxies/java-parser-proxy.h \
+    modules/java/proxies/java-reader-proxy.c \
+    modules/java/proxies/java-reader-proxy.h \
     modules/java/proxies/java-logtag-proxy.c \
     modules/java/proxies/java-logtag-proxy.h \
     modules/java/proxies/internal-message-sender-proxy.c
@@ -107,7 +115,10 @@ JAVA_FILES = \
     $(JAVA_SRC_DIR)/LogRewrite.java \
     $(JAVA_SRC_DIR)/LogParser.java \
     $(JAVA_SRC_DIR)/FilterExprNode.java \
+    $(JAVA_SRC_DIR)/JavaReader.java \
+    $(JAVA_SRC_DIR)/CountTemplate.java \
     $(JAVA_SRC_DIR)/DummyRewrite.java \
+    $(JAVA_SRC_DIR)/DummySource.java \
     $(JAVA_SRC_DIR)/KeyValueParser.java \
     $(JAVA_SRC_DIR)/RandomFilter.java
 
@@ -120,6 +131,7 @@ JAVA_HEADER_FILES = \
    $(top_builddir)/modules/java/org_syslog_ng_FilterExprNode.h \
    $(top_builddir)/modules/java/org_syslog_ng_LogRewrite.h \
    $(top_builddir)/modules/java/org_syslog_ng_LogParser.h \
+   $(top_builddir)/modules/java/org_syslog_ng_JavaReader.h
 
 $(JAVA_HEADER_FILES): java-headers
 

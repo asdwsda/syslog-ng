@@ -35,6 +35,7 @@
 
 FilterExprNode *last_filter;
 JavaPreferences *last_preferences;
+JavaReaderOptions *last_java_reader_options;
 
 }
 
@@ -57,6 +58,7 @@ JavaPreferences *last_preferences;
 %type <ptr> java_filter
 %type <ptr> java_parser
 %type <ptr> java_rewrite
+%type <ptr> java_source
 
 %%
 
@@ -73,7 +75,52 @@ java
         | LL_CONTEXT_FILTER java_filter { $$ = $2; }
         | LL_CONTEXT_PARSER java_parser { $$ = $2; }
         | LL_CONTEXT_REWRITE java_rewrite { $$ = $2; }
+        | LL_CONTEXT_SOURCE java_source { $$ = $2; }
         ;
+
+java_source
+        : KW_JAVA
+          {
+            *instance = last_driver = java_sd_new(configuration);
+            last_preferences = java_sd_get_preferences(last_driver);
+            last_java_reader_options = java_sd_get_reader_options(last_driver);
+            last_source_options = &last_java_reader_options->super;
+          }
+          '(' java_source_options ')'
+          {
+            $$ = *instance;
+          }
+
+java_source_options
+        : java_source_option java_source_options
+        |
+        ;
+
+java_source_option
+        : KW_CLASS_PATH '(' string ')'
+          {
+            java_preferences_set_class_path(last_preferences, $3);
+            free($3);
+          }
+        | KW_CLASS_NAME '(' string ')'
+          {
+            java_preferences_set_class_name(last_preferences, $3);
+            free($3);
+          }
+        | KW_OPTION '(' java_source_custom_options ')'
+        | KW_LOG_FETCH_LIMIT '(' LL_NUMBER ')'
+            {
+                last_java_reader_options->fetch_limit = $3;
+            }
+        ;
+
+java_source_custom_options
+  : java_source_custom_option java_source_custom_options
+  |
+  ;
+
+java_source_custom_option
+  : LL_STRING LL_STRING { java_preferences_set_option(last_preferences, $1, $2); free($1); free($2); }
 
 java_rewrite
         : KW_JAVA
