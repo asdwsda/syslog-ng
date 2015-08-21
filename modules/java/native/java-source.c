@@ -49,7 +49,7 @@ java_sd_init(LogPipe *s)
 
   java_reader_options_init(&self->reader_options, cfg, self->super.super.group);
 
-  java_reader_set_options((LogPipe *)self->reader, &self->super.super.super,  &self->reader_options, 0, SCS_JOURNALD, self->super.super.id, "java");
+  java_reader_set_options(self->reader, &self->super.super.super,  &self->reader_options, 0, SCS_JAVA, self->super.super.id, "java");
 
   log_pipe_append((LogPipe *)self->reader, &self->super.super.super);
   if (!log_pipe_init((LogPipe *)self->reader))

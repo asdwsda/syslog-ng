@@ -83,6 +83,8 @@ java_source
           {
             *instance = last_driver = java_sd_new(configuration);
             last_preferences = java_sd_get_preferences(last_driver);
+            last_java_reader_options = java_sd_get_reader_options(last_driver);
+            last_source_options = &last_java_reader_options->super;
           }
           '(' java_source_options ')'
           {
@@ -98,7 +100,7 @@ java_source_option
         : java_preferences
         | KW_LOG_FETCH_LIMIT '(' LL_NUMBER ')'
             {
-                //last_source_reader_options->fetch_limit = $3;
+                last_java_reader_options->fetch_limit = $3;
             }
         ;
 

@@ -131,7 +131,7 @@ static void
 java_reader_destroy_bookmark(Bookmark *bookmark)
 {
   JavaBookmarkData *bookmark_data = (JavaBookmarkData *)(&bookmark->container);
-  free(bookmark_data->bookmark);
+  gfree(bookmark_data->bookmark);
 }
 
 static void
@@ -287,15 +287,12 @@ java_reader_get_message(JavaReader *self)
 static gboolean
 java_reader_handle_message(JavaReader *self, LogMessage *msg)
 {
-  msg_debug("Incoming log entry", NULL);
-
   log_msg_refcache_start_producer(msg);
   log_source_post(&self->super, msg);
   log_msg_refcache_stop();
   return log_source_free_to_send(&self->super);
 }
 
-/* returns: notify_code (NC_XXXX) or 0 for success */
 static gint
 java_reader_fetch_log(JavaReader *self)
 {
@@ -358,9 +355,9 @@ java_reader_init(LogPipe *s)
 
   if (!java_reader_proxy_init(self->proxy))
     return FALSE;
-  
+
   java_reader_proxy_open(self->proxy);
-  
+
   iv_event_register(&self->schedule_wakeup);
   self->poll_events = poll_follow_events_new(1000, self, java_reader_check_source);
   poll_events_set_callback(self->poll_events, java_reader_io_process_input, self);
@@ -379,7 +376,7 @@ java_reader_deinit(LogPipe *s)
 
   iv_event_unregister(&self->schedule_wakeup);
   java_reader_stop_watches(self);
-  
+
   java_reader_proxy_close(self->proxy);
 
   if (!java_reader_proxy_deinit(self->proxy))
@@ -440,14 +437,6 @@ java_reader_new(GlobalConfig *cfg, JavaPreferences *preferences)
   return self;
 }
 
-void 
-java_reader_set_immediate_check(JavaReader *s)
-{
-  JavaReader *self = (JavaReader*) s;
-
-  self->immediate_check = TRUE;
-}
-
 void
 java_reader_options_defaults(JavaReaderOptions *options)
 {
@@ -474,22 +463,3 @@ java_reader_options_destroy(JavaReaderOptions *options)
   log_source_options_destroy(&options->super);
   options->initialized = FALSE;
 }
-
-//CfgFlagHandler java_reader_flag_handlers[] =
-//{
-//  /* NOTE: underscores are automatically converted to dashes */
-//
-//  /* JavaReaderOptions */
-//  { "kernel",                     CFH_SET, offsetof(JavaReaderOptions, flags),               LR_KERNEL },
-//  { "empty-lines",                CFH_SET, offsetof(JavaReaderOptions, flags),               LR_EMPTY_LINES },
-//  { "threaded",                   CFH_SET, offsetof(JavaReaderOptions, flags),               LR_THREADED },
-//  { NULL },
-//};
-
-//gboolean
-//java_reader_options_process_flag(JavaReaderOptions *options, gchar *flag)
-//{
-//  if (!msg_format_options_process_flag(&options->parse_options, flag))
-//    return cfg_process_flag(java_reader_flag_handlers, options, flag);
-//  return TRUE;
-//}
