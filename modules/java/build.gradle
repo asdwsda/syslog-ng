@@ -6,17 +6,25 @@ archivesBaseName = 'syslog-ng-core'
 
 task nativeHeaders {
     def classes = [
+            'org.syslog_ng.LogTag',
             'org.syslog_ng.LogTemplate',
             'org.syslog_ng.LogMessage',
             'org.syslog_ng.LogDestination',
-            'org.syslog_ng.InternalMessageSender'
+            'org.syslog_ng.InternalMessageSender',
+            'org.syslog_ng.FilterExprNode',
+            'org.syslog_ng.LogParser',
+            'org.syslog_ng.LogRewrite'
     ]
 
     def outputFiles = [
+            file("$syslogBuildDir/org_syslog_ng_LogTag.h"),
             file("$syslogBuildDir/org_syslog_ng_LogTemplate.h"),
             file("$syslogBuildDir/org_syslog_ng_LogMessage.h"),
             file("$syslogBuildDir/org_syslog_ng_LogDestination.h"),
-            file("$syslogBuildDir/org_syslog_ng_InternalMessageSender.h")
+            file("$syslogBuildDir/org_syslog_ng_InternalMessageSender.h"),
+            file("$syslogBuildDir/org_syslog_ng_FilterExprNode.h"),
+            file("$syslogBuildDir/org_syslog_ng_LogParser.h"),
+            file("$syslogBuildDir/org_syslog_ng_LogRewrite.h")
     ]
 
     inputs.files sourceSets.main.output
