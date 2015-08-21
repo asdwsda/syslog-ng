@@ -118,7 +118,7 @@ JAVA_FILES = \
     $(JAVA_SRC_DIR)/LogParser.java \
     $(JAVA_SRC_DIR)/TemplateFunction.java \
     $(JAVA_SRC_DIR)/FilterExprNode.java \
-    $(JAVA_SRC_DIR)/LogReader.java \
+    $(JAVA_SRC_DIR)/JavaReader.java \
     $(JAVA_SRC_DIR)/CountTemplate.java \
     $(JAVA_SRC_DIR)/DummyRewrite.java \
     $(JAVA_SRC_DIR)/DummySource.java \
@@ -135,7 +135,7 @@ JAVA_HEADER_FILES = \
    $(top_builddir)/modules/java/org_syslog_ng_LogRewrite.h \
    $(top_builddir)/modules/java/org_syslog_ng_TemplateFunction.h \
    $(top_builddir)/modules/java/org_syslog_ng_LogParser.h \
-   $(top_builddir)/modules/java/org_syslog_ng_LogReader.h
+   $(top_builddir)/modules/java/org_syslog_ng_JavaReader.h
 
 $(JAVA_HEADER_FILES): java-headers
 

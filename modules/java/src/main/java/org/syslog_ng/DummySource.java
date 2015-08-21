@@ -22,7 +22,7 @@
 
 package org.syslog_ng;
 
-public class DummySource extends LogReader {
+public class DummySource extends JavaReader {
 
     long last_msg_sent;
     int msg_count;

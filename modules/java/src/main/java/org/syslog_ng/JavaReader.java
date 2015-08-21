@@ -22,9 +22,9 @@
 
 package org.syslog_ng;
 
-public abstract class LogReader extends LogPipe {
+public abstract class JavaReader extends LogPipe {
 
-    public LogReader(long pipeHandle) {
+    public JavaReader(long pipeHandle) {
         super(pipeHandle);
     }
 

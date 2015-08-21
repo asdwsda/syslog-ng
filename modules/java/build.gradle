@@ -14,7 +14,7 @@ task nativeHeaders {
             'org.syslog_ng.FilterExprNode',
             'org.syslog_ng.TemplateFunction',
             'org.syslog_ng.LogParser',
-            'org.syslog_ng.LogReader',
+            'org.syslog_ng.JavaReader',
             'org.syslog_ng.LogRewrite'
     ]
 
@@ -27,7 +27,7 @@ task nativeHeaders {
             file("$syslogBuildDir/org_syslog_ng_FilterExprNode.h"),
             file("$syslogBuildDir/org_syslog_ng_TemplateFunction.h"),
             file("$syslogBuildDir/org_syslog_ng_LogParser.h"),
-            file("$syslogBuildDir/org_syslog_ng_LogReader.h"),
+            file("$syslogBuildDir/org_syslog_ng_JavaReader.h"),
             file("$syslogBuildDir/org_syslog_ng_LogRewrite.h")
     ]
 
