@@ -20,22 +20,21 @@
  *
  */
 
-#ifndef JAVA_REWRITE_H_INCLUDED
-#define JAVA_REWRITE_H_INCLUDED
-
-#include "rewrite/rewrite-expr.h"
-#include "proxies/java-rewrite-proxy.h"
-#include "java-options.h"
-
+#ifndef JAVA_OPTIONS_H_INCLUDED
+#define JAVA_OPTIONS_H_INCLUDED
 
 typedef struct
 {
-  LogRewrite super;
-  JavaRewriteProxy *proxy;
-  JavaOptions *options;
-} JavaRewrite;
+    GString *class_path;
+    gchar *class_name;
+    GHashTable *options;
+} JavaOptions;
 
-LogRewrite *java_rewrite_new(GlobalConfig *cfg, JavaOptions *options);
-void java_rewrite_set_options(LogRewrite *s, const JavaOptions *options);
+JavaOptions* java_options_new();
+void java_options_set_class_path(JavaOptions *self, const gchar *class_path);
+void java_options_set_class_name(JavaOptions *self, const gchar *class_name);
+void java_options_set_option(JavaOptions *self, const gchar* key, const gchar* value);
+void java_options_free(JavaOptions *self);
+JavaOptions* java_options_clone(JavaOptions *self);
 
 #endif
