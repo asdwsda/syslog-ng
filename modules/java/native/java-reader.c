@@ -182,7 +182,6 @@ java_reader_wakeup_triggered(gpointer s)
     }
 }
 
-/* NOTE: may be running in the destination's thread, thus proper locking must be used */
 static void
 java_reader_wakeup(LogSource *s)
 {

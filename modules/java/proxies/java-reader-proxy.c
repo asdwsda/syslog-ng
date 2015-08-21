@@ -238,7 +238,7 @@ gchar *java_reader_proxy_get_bookmark(JavaReaderProxy *self)
   jstring result;
   JNIEnv *env = java_machine_get_env(self->java_machine, &env);
   result = CALL_JAVA_FUNCTION(env, CallObjectMethod, self->reader_impl.reader_object, self->reader_impl.mi_get_bookmark);
-  return java_str_dup(env, result);  
+  return java_str_dup(env, result);
 }
 
 gchar *java_reader_proxy_get_name_by_uniq_options(JavaReaderProxy *self)
