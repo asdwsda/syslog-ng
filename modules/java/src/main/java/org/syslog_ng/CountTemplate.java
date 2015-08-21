@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 BalaBit IT Ltd, Budapest, Hungary
+ * Copyright (c) 2014 BalaBit IT Ltd, Budapest, Hungary
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 2 as published
@@ -20,23 +20,21 @@
  *
  */
 
-#ifndef JAVA_PREFERENCES_H_INCLUDED
-#define JAVA_PREFERENCES_H_INCLUDED
+package org.syslog_ng;
 
-#include <glib.h>
+public class CountTemplate extends TemplateFunction {
 
-typedef struct
-{
-    GString *class_path;
-    gchar *class_name;
-    GHashTable *options;
-} JavaPreferences;
+    int count = 0;
 
-JavaPreferences* java_preferences_new();
-void java_preferences_set_class_path(JavaPreferences *self, const gchar *class_path);
-void java_preferences_set_class_name(JavaPreferences *self, const gchar *class_name);
-void java_preferences_set_option(JavaPreferences *self, const gchar* key, const gchar* value);
-void java_preferences_free(JavaPreferences *self);
-JavaPreferences* java_preferences_clone(JavaPreferences *self);
+    public CountTemplate(long handle) {
+        super(handle);
+    }
 
-#endif
+    @Override
+    public String call(LogMessage msg) {
+        count++;
+        String message = msg.getValue("MSG");
+        return String.format("Message %d - %s", count, message);
+    }
+}
+

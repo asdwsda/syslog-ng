@@ -12,6 +12,7 @@ task nativeHeaders {
             'org.syslog_ng.LogDestination',
             'org.syslog_ng.InternalMessageSender',
             'org.syslog_ng.FilterExprNode',
+            'org.syslog_ng.TemplateFunction',
             'org.syslog_ng.LogParser',
             'org.syslog_ng.JavaReader',
             'org.syslog_ng.LogRewrite'
@@ -24,6 +25,7 @@ task nativeHeaders {
             file("$syslogBuildDir/org_syslog_ng_LogDestination.h"),
             file("$syslogBuildDir/org_syslog_ng_InternalMessageSender.h"),
             file("$syslogBuildDir/org_syslog_ng_FilterExprNode.h"),
+            file("$syslogBuildDir/org_syslog_ng_TemplateFunction.h"),
             file("$syslogBuildDir/org_syslog_ng_LogParser.h"),
             file("$syslogBuildDir/org_syslog_ng_JavaReader.h"),
             file("$syslogBuildDir/org_syslog_ng_LogRewrite.h")

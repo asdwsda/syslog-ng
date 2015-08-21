@@ -20,23 +20,19 @@
  *
  */
 
-#ifndef JAVA_PREFERENCES_H_INCLUDED
-#define JAVA_PREFERENCES_H_INCLUDED
+#ifndef JAVA_TF_PROXY_H_
+#define JAVA_TF_PROXY_H_
 
-#include <glib.h>
+#include <jni.h>
+#include <syslog-ng.h>
+#include "java_machine.h"
 
-typedef struct
-{
-    GString *class_path;
-    gchar *class_name;
-    GHashTable *options;
-} JavaPreferences;
+typedef struct _JavaTFProxy JavaTFProxy;
 
-JavaPreferences* java_preferences_new();
-void java_preferences_set_class_path(JavaPreferences *self, const gchar *class_path);
-void java_preferences_set_class_name(JavaPreferences *self, const gchar *class_name);
-void java_preferences_set_option(JavaPreferences *self, const gchar* key, const gchar* value);
-void java_preferences_free(JavaPreferences *self);
-JavaPreferences* java_preferences_clone(JavaPreferences *self);
+JavaTFProxy* java_tf_proxy_new(const gchar *class_name, const gchar *class_path, gpointer handle);
+
+gchar* java_tf_proxy_call(JavaTFProxy *self, LogMessage *msg);
+
+void java_tf_proxy_free(JavaTFProxy *self);
 
 #endif

@@ -68,6 +68,8 @@ modules_java_libmod_java_la_SOURCES = \
     modules/java/native/java-reader.c \
     modules/java/native/java-rewrite.h \
     modules/java/native/java-rewrite.c \
+    modules/java/native/java-tf.h \
+    modules/java/native/java-tf.c \
     modules/java/native/java-source.h \
     modules/java/native/java-source.c \
     modules/java/native/poll-follow-events.h \
@@ -76,8 +78,6 @@ modules_java_libmod_java_la_SOURCES = \
     modules/java/proxies/java-destination-proxy.h \
     modules/java/proxies/java-logmsg-proxy.c \
     modules/java/proxies/java-logmsg-proxy.h \
-    modules/java/proxies/java-template-proxy.c \
-    modules/java/proxies/java-template-proxy.h \
     modules/java/proxies/java-filter-proxy.c \
     modules/java/proxies/java-filter-proxy.h \
     modules/java/proxies/java-rewrite-proxy.c \
@@ -86,6 +86,8 @@ modules_java_libmod_java_la_SOURCES = \
     modules/java/proxies/java-parser-proxy.h \
     modules/java/proxies/java-reader-proxy.c \
     modules/java/proxies/java-reader-proxy.h \
+    modules/java/proxies/java-tf-proxy.c \
+    modules/java/proxies/java-tf-proxy.h \
     modules/java/proxies/java-logtag-proxy.c \
     modules/java/proxies/java-logtag-proxy.h \
     modules/java/proxies/internal-message-sender-proxy.c
@@ -114,6 +116,7 @@ JAVA_FILES = \
     $(JAVA_SRC_DIR)/LogTag.java \
     $(JAVA_SRC_DIR)/LogRewrite.java \
     $(JAVA_SRC_DIR)/LogParser.java \
+    $(JAVA_SRC_DIR)/TemplateFunction.java \
     $(JAVA_SRC_DIR)/FilterExprNode.java \
     $(JAVA_SRC_DIR)/JavaReader.java \
     $(JAVA_SRC_DIR)/CountTemplate.java \
@@ -130,6 +133,7 @@ JAVA_HEADER_FILES = \
    $(top_builddir)/modules/java/org_syslog_ng_LogTag.h \
    $(top_builddir)/modules/java/org_syslog_ng_FilterExprNode.h \
    $(top_builddir)/modules/java/org_syslog_ng_LogRewrite.h \
+   $(top_builddir)/modules/java/org_syslog_ng_TemplateFunction.h \
    $(top_builddir)/modules/java/org_syslog_ng_LogParser.h \
    $(top_builddir)/modules/java/org_syslog_ng_JavaReader.h
 

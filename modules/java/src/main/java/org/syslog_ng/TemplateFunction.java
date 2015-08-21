@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 BalaBit IT Ltd, Budapest, Hungary
+ * Copyright (c) 2014 BalaBit IT Ltd, Budapest, Hungary
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 2 as published
@@ -20,23 +20,34 @@
  *
  */
 
-#ifndef JAVA_PREFERENCES_H_INCLUDED
-#define JAVA_PREFERENCES_H_INCLUDED
+package org.syslog_ng;
 
-#include <glib.h>
+public abstract class TemplateFunction {
 
-typedef struct
-{
-    GString *class_path;
-    gchar *class_name;
-    GHashTable *options;
-} JavaPreferences;
+    private long handle;
 
-JavaPreferences* java_preferences_new();
-void java_preferences_set_class_path(JavaPreferences *self, const gchar *class_path);
-void java_preferences_set_class_name(JavaPreferences *self, const gchar *class_name);
-void java_preferences_set_option(JavaPreferences *self, const gchar* key, const gchar* value);
-void java_preferences_free(JavaPreferences *self);
-JavaPreferences* java_preferences_clone(JavaPreferences *self);
+    public TemplateFunction(long handle) {
+        this.handle = handle;
+    }
 
-#endif
+    public String getOption(String key) {
+        return getOption(this.handle, key);
+    }
+
+    protected abstract String call(LogMessage msg);
+
+    private native String getOption(long ptr, String key);
+
+    public String callProxy(LogMessage msg) {
+        try {
+            return call(msg);
+        }
+        catch (Exception e) {
+            InternalMessageSender.sendExceptionMessage(e);
+            return "";
+        }
+        finally {
+            msg.release();
+        }
+    }
+}

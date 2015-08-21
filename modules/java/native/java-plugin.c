@@ -31,6 +31,9 @@
 #include "logqueue.h"
 #include "driver.h"
 #include "plugin-types.h"
+#include "template/function.h"
+#include "java-tf.h"
+
 
 
 extern CfgParser java_parser;
@@ -57,6 +60,7 @@ static Plugin java_plugins[] =
     .name = "java",
     .parser = &java_parser,
   },
+  TEMPLATE_FUNCTION_PLUGIN(java_tf, "java"),
   {
     .type = LL_CONTEXT_SOURCE,
     .name = "java",

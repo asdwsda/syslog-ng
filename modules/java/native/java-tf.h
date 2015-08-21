@@ -20,23 +20,11 @@
  *
  */
 
-#ifndef JAVA_PREFERENCES_H_INCLUDED
-#define JAVA_PREFERENCES_H_INCLUDED
+#ifndef JAVA_TF_H_INCLUDED
+#define JAVA_TF_H_INCLUDED
 
-#include <glib.h>
+#include "lib/template/function.h"
 
-typedef struct
-{
-    GString *class_path;
-    gchar *class_name;
-    GHashTable *options;
-} JavaPreferences;
-
-JavaPreferences* java_preferences_new();
-void java_preferences_set_class_path(JavaPreferences *self, const gchar *class_path);
-void java_preferences_set_class_name(JavaPreferences *self, const gchar *class_name);
-void java_preferences_set_option(JavaPreferences *self, const gchar* key, const gchar* value);
-void java_preferences_free(JavaPreferences *self);
-JavaPreferences* java_preferences_clone(JavaPreferences *self);
+TEMPLATE_FUNCTION_PROTOTYPE(java_tf);
 
 #endif
