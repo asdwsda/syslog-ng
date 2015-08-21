@@ -48,7 +48,7 @@ Java_org_syslog_1ng_FilterExprNode_getOption(JNIEnv *env, jobject obj, jlong s, 
     }
 
     gchar *normalized_key = normalize_key(key_str);
-    value = g_hash_table_lookup(self->options, normalized_key);
+    value = g_hash_table_lookup(self->preferences->options, normalized_key);
     (*env)->ReleaseStringUTFChars(env, key, key_str);
     g_free(normalized_key);
 
@@ -63,29 +63,6 @@ Java_org_syslog_1ng_FilterExprNode_getOption(JNIEnv *env, jobject obj, jlong s, 
 }
 
 void
-java_filter_set_option(FilterExprNode *s, const gchar* key, const gchar* value)
-{
-    JavaFilter *self = (JavaFilter*) s;
-    gchar *normalized_key = normalize_key(key);
-    g_hash_table_insert(self->options, normalized_key, g_strdup(value));
-}
-
-void
-java_filter_set_class_path(FilterExprNode *s, const gchar *class_path)
-{
-  JavaFilter *self = (JavaFilter *)s;
-  g_string_assign(self->class_path, class_path);
-}
-
-void
-java_filter_set_class_name(FilterExprNode *s, const gchar *class_name)
-{
-  JavaFilter *self = (JavaFilter *)s;
-  g_free(self->class_name);
-  self->class_name = g_strdup(class_name);
-}
-
-void
 java_filter_free(FilterExprNode *s)
 {
     JavaFilter *self = (JavaFilter*) s;
@@ -93,9 +70,7 @@ java_filter_free(FilterExprNode *s)
     if (self->proxy)
         java_filter_proxy_free(self->proxy);
 
-    g_free(self->class_name);
-    g_string_free(self->class_path, TRUE);
-    g_hash_table_unref(self->options);
+    java_preferences_free(self->preferences);
 }
 
 void
@@ -103,11 +78,17 @@ java_filter_init(FilterExprNode *s, GlobalConfig *cfg)
 {
     JavaFilter *self = (JavaFilter*) s;
 
+    self->proxy = java_filter_proxy_new(self->preferences->class_name, self->preferences->class_path->str, self);
 
-    self->proxy = java_filter_proxy_new(self->class_name, self->class_path->str, self);
-
-    // TODO: kivezetni a cfg-t javaba
     java_filter_proxy_init(self->proxy);
+}
+
+JavaPreferences *
+java_filter_get_preferences(FilterExprNode *s)
+{
+    JavaFilter *self = (JavaFilter*) s;
+
+    return self->preferences;
 }
 
 FilterExprNode *
@@ -119,8 +100,7 @@ java_filter_new()
     self->super.free_fn = java_filter_free;
     self->super.init = java_filter_init;
 
-    self->class_path = g_string_new(".");
-    self->options = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
+    self->preferences = java_preferences_new();
 
     return (FilterExprNode *)self;
 }

@@ -23,6 +23,18 @@
 #include "java-helpers.h"
 #include "java-preferences.h"
 
+gchar *
+java_preferences_get_option(JavaPreferences *self, const gchar *key)
+{
+  gchar *value;
+  gchar *normalized_key = g_strdup(key);
+  normalized_key = normalize_key(normalized_key);
+  value = g_hash_table_lookup(self->options, normalized_key);
+  g_free(normalized_key);
+
+  return value;
+}
+
 void
 java_preferences_set_option(JavaPreferences *self, const gchar* key, const gchar* value)
 {

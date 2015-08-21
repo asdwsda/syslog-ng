@@ -36,6 +36,7 @@ JavaPreferences* java_preferences_new();
 void java_preferences_set_class_path(JavaPreferences *self, const gchar *class_path);
 void java_preferences_set_class_name(JavaPreferences *self, const gchar *class_name);
 void java_preferences_set_option(JavaPreferences *self, const gchar* key, const gchar* value);
+gchar *java_preferences_get_option(JavaPreferences *self, const gchar *key);
 void java_preferences_free(JavaPreferences *self);
 JavaPreferences* java_preferences_clone(JavaPreferences *self);
 

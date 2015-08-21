@@ -26,24 +26,22 @@
 JNIEXPORT jstring JNICALL
 Java_org_syslog_1ng_LogRewrite_getOption(JNIEnv *env, jobject obj, jlong s, jstring key)
 {
-    JavaRewrite *self = (JavaRewrite *)s;
-    gchar *value;
-    const char *key_str = (*env)->GetStringUTFChars(env, key, NULL);
-    if (key_str == NULL)
+  JavaRewrite *self = (JavaRewrite *)s;
+  gchar *value;
+  const char *key_str = (*env)->GetStringUTFChars(env, key, NULL);
+  if (key_str == NULL)
     {
-        return NULL;
+      return NULL;
     }
 
-    gchar *normalized_key = normalize_key(key_str);
-    value = g_hash_table_lookup(self->preferences->options, normalized_key);
-    (*env)->ReleaseStringUTFChars(env, key, key_str);
-    g_free(normalized_key);
+  value = java_preferences_get_option(self->preferences, key_str);
+  (*env)->ReleaseStringUTFChars(env, key, key_str);
 
-    if (value)
+  if (value)
     {
-        return (*env)->NewStringUTF(env, value);
+      return (*env)->NewStringUTF(env, value);
     }
-    else
+  else
     {
       return NULL;
     }
