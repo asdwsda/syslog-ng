@@ -25,20 +25,17 @@
 
 #include "parser/parser-expr.h"
 #include "proxies/java-parser-proxy.h"
+#include "java-preferences.h"
 
 
 typedef struct
 {
   LogParser super;
   JavaParserProxy *proxy;
-  GString *class_path;
-  gchar *class_name;
-  GHashTable *options;
+  JavaPreferences *preferences;
 } JavaParser;
 
 LogParser *java_parser_new(GlobalConfig *cfg);
-void java_parser_set_class_path(LogParser *s, const gchar *class_path);
-void java_parser_set_class_name(LogParser *s, const gchar *class_name);
-void java_parser_set_option(LogParser *s, const gchar* key, const gchar* value);
+JavaPreferences *java_parser_get_preferences(LogParser *s);
 
 #endif
