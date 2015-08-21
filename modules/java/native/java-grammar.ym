@@ -239,9 +239,11 @@ java_dest
         : KW_JAVA
           {
             last_driver = *instance = java_dd_new(configuration);
+            last_preferences = java_dd_get_preferences(last_driver);
           }
         '(' java_dest_options ')' { $$ = last_driver; }
         ;
+
 
 java_dest_options
         : java_dest_option java_dest_options
@@ -249,30 +251,33 @@ java_dest_options
         ;
 
 java_dest_option
-        : KW_CLASS_PATH '(' string ')'
-          {
-            java_dd_set_class_path(last_driver, $3);
-            free($3);
-          }
-        | KW_CLASS_NAME '(' string ')'
-          {
-            java_dd_set_class_name(last_driver, $3);
-            free($3);
-          }
+        : java_preferences
         | KW_TEMPLATE '(' string ')' { java_dd_set_template_string(last_driver, $3); free($3); }
-        | KW_OPTION '(' java_dest_custom_options ')'
         | threaded_dest_driver_option
         | dest_driver_option
         | { last_template_options = java_dd_get_template_options(last_driver); } template_option
         ;
 
-java_dest_custom_options
-  : java_dest_custom_option java_dest_custom_options
+java_preferences
+        : KW_CLASS_PATH '(' string ')'
+          {
+            java_preferences_set_class_path(last_preferences, $3);
+            free($3);
+          }
+        | KW_CLASS_NAME '(' string ')'
+          {
+            java_preferences_set_class_name(last_preferences, $3);
+            free($3);
+          }
+        | KW_OPTION '(' java_custom_options ')'
+
+java_custom_options
+  : java_custom_option java_custom_options
   |
   ;
 
-java_dest_custom_option
-  : LL_STRING LL_STRING { java_dd_set_option(last_driver, $1, $2); free($1); free($2); }
+java_custom_option
+  : LL_STRING LL_STRING { java_preferences_set_option(last_preferences, $1, $2); free($1); free($2); }
 
 /* INCLUDE_RULES */
 

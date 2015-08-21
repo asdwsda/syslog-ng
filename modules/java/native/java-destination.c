@@ -41,11 +41,8 @@ Java_org_syslog_1ng_LogDestination_getOption(JNIEnv *env, jobject obj, jlong s, 
     {
       return NULL;
     }
-  gchar *normalized_key = g_strdup(key_str);
-  normalized_key = __normalize_key(normalized_key);
-  value = g_hash_table_lookup(self->options, normalized_key);
+  value = java_preferences_get_option(self->preferences, key_str);
   (*env)->ReleaseStringUTFChars(env, key, key_str);  // release resources
-  g_free(normalized_key);
 
   if (value)
     {
@@ -69,30 +66,6 @@ Java_org_syslog_1ng_LogPipe_getConfigHandle(JNIEnv *env, jobject obj, jlong hand
 {
   JavaDestDriver *self = (JavaDestDriver *)handle;
   return (jlong)log_pipe_get_config(&self->super.super.super.super);
-}
-
-void java_dd_set_option(LogDriver *s, const gchar *key, const gchar *value)
-{
-  JavaDestDriver *self = (JavaDestDriver *)s;
-  gchar *normalized_key = g_strdup(key);
-  normalized_key = __normalize_key(normalized_key);
-  g_hash_table_insert(self->options, g_strdup(normalized_key), g_strdup(value));
-}
-
-
-void
-java_dd_set_class_path(LogDriver *s, const gchar *class_path)
-{
-  JavaDestDriver *self = (JavaDestDriver *)s;
-  g_string_assign(self->class_path, class_path);
-}
-
-void
-java_dd_set_class_name(LogDriver *s, const gchar *class_name)
-{
-  JavaDestDriver *self = (JavaDestDriver *)s;
-  g_free(self->class_name);
-  self->class_name = g_strdup(class_name);
 }
 
 void
@@ -125,7 +98,7 @@ java_dd_init(LogPipe *s)
       return FALSE;
     }
 
-  self->proxy = java_destination_proxy_new(self->class_name, self->class_path->str, self, self->template);
+  self->proxy = java_destination_proxy_new(self->preferences->class_name, self->preferences->class_path->str, self, self->template);
   if (!self->proxy)
     return FALSE;
 
@@ -217,11 +190,9 @@ java_dd_free(LogPipe *s)
   if (self->proxy)
     java_destination_proxy_free(self->proxy);
 
-  g_free(self->class_name);
-  g_hash_table_unref(self->options);
-
   log_template_options_destroy(&self->template_options);
-  g_string_free(self->class_path, TRUE);
+
+  java_preferences_free(self->preferences);
 }
 
 static void
@@ -238,6 +209,14 @@ java_dd_get_template_options(LogDriver *s)
   JavaDestDriver *self = (JavaDestDriver *) s;
 
   return &self->template_options;
+}
+
+JavaPreferences *
+java_dd_get_preferences(LogDriver *s)
+{
+  JavaDestDriver *self = (JavaDestDriver *) s;
+
+  return self->preferences;
 }
 
 LogDriver *
@@ -262,14 +241,14 @@ java_dd_new(GlobalConfig *cfg)
   self->super.stats_source = SCS_JAVA;
 
   self->template = log_template_new(cfg, "java_dd_template");
-  self->class_path = g_string_new(".");
 
   java_dd_set_template_string(&self->super.super.super, "$ISODATE $HOST $MSGHDR$MSG\n");
 
   self->formatted_message = g_string_sized_new(1024);
-  self->options = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
 
   log_template_options_defaults(&self->template_options);
+
+  self->preferences = java_preferences_new();
 
   return (LogDriver *)self;
 }
